@@ -1,99 +1,52 @@
-import React, { useContext, useState } from "react";
-import { Dimensions, TouchableWithoutFeedback, View } from "react-native";
-import {
-    Flex,
-    NativeBaseProvider,
-    Image,
-    FlatList,
-    Box,
-    Pressable,
-    Text,
-    HStack,
-} from "native-base";
-import { Entypo } from "@expo/vector-icons";
-import { AudioContext } from "../context/AudioProvider";
-import Footer from "./footer";
+import { NativeBaseProvider, Box, Center, Text, Pressable } from "native-base";
+import React from "react";
+import { windowWidth } from "./country";
 
-export const windowWidth = Dimensions.get("window").width;
-const windowHeight = Dimensions.get("window").height;
-
-export default function Home({ navigation }) {
-    const context = useContext(AudioContext);
-    const { details, selectStation, changeStation, getStations } = context;
-
-    async function nextSong() {
-        await changeStation("next", details.stationIndex);
-    }
-    async function prevSong() {
-        await changeStation("prev", details.stationIndex);
-    }
-
-    function isEmpty(obj) {
-        var i = Object.keys(obj).length !== 0;
-        console.log("var", typeof i);
-
-        return Object.keys(obj).length !== 0;
-    }
-
-    // console.log("det", details.countries."IN");
+const Home = ({ navigation }) => {
+    const Example = (props) => {
+        return (
+            <Box
+                m={3}
+                overflow="hidden"
+                borderColor="coolGray.200"
+                borderWidth="1"
+                p="2"
+                mb="1"
+                w={windowWidth * 0.4}
+                h={windowWidth * 0.4}
+                justifyContent="center"
+                alignItems="center"
+                {...props}
+            />
+        );
+    };
 
     return (
         <NativeBaseProvider>
-            <View>
-                <Box p="5" safeArea>
-                    <Text fontSize="2xl" bold>
-                        Countries Available
-                    </Text>
-
-                    <FlatList
-                        data={details.countries}
-                        keyExtractor={(item, index) => index.toString()}
-                        renderItem={({ item, index }) => (
-                            <Pressable
-                                onPress={() => {
-                                    console.log("pressed");
-                                    getStations(item[0]);
-                                    if (details.radioStations) {
-                                        console.log("asd");
-                                        navigation.navigate("station");
-                                    }
-                                }}
-                            >
-                                <Box
-                                    p="2"
-                                    mb="1"
-                                    maxW={windowWidth - 10}
-                                    rounded="lg"
-                                    flexDirection="row"
-                                    overflow="hidden"
-                                    borderColor="coolGray.200"
-                                    borderWidth="1"
-                                >
-                                    <Flex
-                                        my={2}
-                                        flexDirection="row-reverse"
-                                        align={"center"}
-                                    >
-                                        <Text fontSize={"xl"}>{item[1]}</Text>
-                                        <Box>
-                                            <Entypo
-                                                name="chevron-right"
-                                                size={24}
-                                                color="black"
-                                            />
-                                        </Box>
-                                    </Flex>
-                                </Box>
-                            </Pressable>
-                        )}
-                    />
-                    {isEmpty(details.currentStation) && (
-                        <HStack>
-                            <Footer />
-                        </HStack>
-                    )}
+            <Center flex={1}>
+                <Box flexDirection="column">
+                    <Pressable
+                        onPress={() => {
+                            navigation.navigate("country");
+                        }}
+                    >
+                        <Example>
+                            <Text fontSize="xl">Search by Countries</Text>
+                        </Example>
+                    </Pressable>
+                    <Pressable
+                        onPress={() => {
+                            navigation.navigate("Search");
+                        }}
+                    >
+                        <Example>
+                            <Text fontSize="xl">Custom Search</Text>
+                        </Example>
+                    </Pressable>
                 </Box>
-            </View>
+            </Center>
         </NativeBaseProvider>
     );
-}
+};
+
+export default Home;

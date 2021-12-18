@@ -36,7 +36,7 @@ export default function Footer() {
                 </TouchableWithoutFeedback>
                 <TouchableWithoutFeedback
                     onPress={() => {
-                        selectAudio(details.stationIndex);
+                        selectStation(details.stationIndex);
                     }}
                 >
                     {details.isPlaying ? (
