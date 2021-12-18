@@ -27,10 +27,14 @@ const AudioProvider = ({ children }) => {
     };
 
     const play = async (url) => {
-        return details.playbackObj.loadAsync(
-            { uri: url },
-            { shouldPlay: true }
-        );
+        try {
+            return details.playbackObj.loadAsync(
+                { uri: url },
+                { shouldPlay: true }
+            );
+        } catch (error) {
+            console.log("error inside player method", error.message);
+        }
     };
 
     const pause = async () => {
@@ -81,8 +85,6 @@ const AudioProvider = ({ children }) => {
                     soundObj: status,
                     isPlaying: true,
                 });
-                console.log("status", status);
-
                 return;
             }
             if (
@@ -112,7 +114,6 @@ const AudioProvider = ({ children }) => {
             }
             if (details.soundObj.isLoaded && details.stationIndex !== index) {
                 const status = await switchStation(url);
-                console.log("status", status);
                 handleChange({
                     currentStation: station,
                     stationIndex: index,
@@ -130,8 +131,6 @@ const AudioProvider = ({ children }) => {
         console.log("sel", select, index);
         try {
             if (select === "next") {
-                console.log("ads");
-
                 let i = index + 1;
                 selectStation(i);
             }
@@ -164,9 +163,22 @@ const AudioProvider = ({ children }) => {
             countryCode: code,
             limit: 100,
         });
-        // console.log("stations", stations);
-
         handleChange({ radioStations: stations });
+    };
+
+    const sta = async (data) => {
+        let stations = await api.searchStations({
+            countryCode: data.countryCode,
+            language: data.language,
+            tag: data.genre,
+            limit: 100,
+        });
+        if (stations.length > 0) {
+            handleChange({ radioStations: stations });
+            return true;
+        } else {
+            return false;
+        }
     };
 
     useEffect(async () => {
@@ -187,10 +199,6 @@ const AudioProvider = ({ children }) => {
         });
     }, []);
 
-    useEffect(() => {
-        console.log("st", details.currentStation.tags);
-    }, [details.currentStation]);
-
     return (
         <AudioContext.Provider
             value={{
@@ -199,7 +207,7 @@ const AudioProvider = ({ children }) => {
                 changeStation,
                 pause,
                 getStations,
-                // onPlaybackStatusUpdate,
+                sta,
             }}
         >
             {children}
