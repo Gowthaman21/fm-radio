@@ -1,10 +1,10 @@
 {
   "expo": {
-    "name": "fm-radio",
+    "name": "Online Radio",
     "slug": "fm-radio",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/logo.jpg",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
@@ -23,7 +23,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "package": "com.gowthaman21.fmradio"
     },
     "web": {
       "favicon": "./assets/favicon.png"
