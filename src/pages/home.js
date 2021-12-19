@@ -1,50 +1,70 @@
-import { NativeBaseProvider, Box, Center, Text, Pressable } from "native-base";
-import React from "react";
+import {
+    NativeBaseProvider,
+    Box,
+    Center,
+    Pressable,
+    HStack,
+} from "native-base";
+import React, { useContext } from "react";
 import { windowWidth } from "./country";
+import { AudioContext } from "../context/AudioProvider";
+import { DARK_BG, DARK_BG2 } from "../theme";
+import Footer from "./footer";
 
 const Home = ({ navigation }) => {
+    const { details } = useContext(AudioContext);
     const Example = (props) => {
         return (
             <Box
                 m={3}
+                rounded={"xl"}
+                shadow={9}
+                bg={DARK_BG2}
                 overflow="hidden"
-                borderColor="coolGray.200"
-                borderWidth="1"
                 p="2"
                 mb="1"
                 w={windowWidth * 0.4}
                 h={windowWidth * 0.4}
                 justifyContent="center"
                 alignItems="center"
+                _text={{ fontSize: "xl", color: "#fff", fontWeight: "bold" }}
                 {...props}
             />
         );
     };
 
+    function isEmpty(obj) {
+        var i = Object.keys(obj).length !== 0;
+        return i;
+    }
+
     return (
         <NativeBaseProvider>
-            <Center flex={1}>
-                <Box flexDirection="column">
-                    <Pressable
-                        onPress={() => {
-                            navigation.navigate("country");
-                        }}
-                    >
-                        <Example>
-                            <Text fontSize="xl">Search by Countries</Text>
-                        </Example>
-                    </Pressable>
-                    <Pressable
-                        onPress={() => {
-                            navigation.navigate("Search");
-                        }}
-                    >
-                        <Example>
-                            <Text fontSize="xl">Custom Search</Text>
-                        </Example>
-                    </Pressable>
-                </Box>
-            </Center>
+            <Box safeArea flex={1}>
+                <Center flex={1} bg={DARK_BG}>
+                    <Box flexDirection="column">
+                        <Pressable
+                            onPress={() => {
+                                navigation.navigate("country");
+                            }}
+                        >
+                            <Example>Search by Countries</Example>
+                        </Pressable>
+                        <Pressable
+                            onPress={() => {
+                                navigation.navigate("Search");
+                            }}
+                        >
+                            <Example>Custom Search</Example>
+                        </Pressable>
+                    </Box>
+                </Center>
+                {isEmpty(details.currentStation) && (
+                    <HStack>
+                        <Footer />
+                    </HStack>
+                )}
+            </Box>
         </NativeBaseProvider>
     );
 };

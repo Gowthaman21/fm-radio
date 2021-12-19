@@ -1,21 +1,20 @@
 import React, { useContext, useState, useEffect } from "react";
-import { Dimensions} from "react-native";
+import { Dimensions } from "react-native";
 import {
     Flex,
     NativeBaseProvider,
-    Image,
     FlatList,
     Box,
     Pressable,
     Text,
     Spinner,
     HStack,
-    Heading,
     Center,
 } from "native-base";
 import { Entypo } from "@expo/vector-icons";
 import { AudioContext } from "../context/AudioProvider";
 import Footer from "./footer";
+import { DARK_BG, DARK_BG2, DARK_ICON } from "../theme";
 
 export const windowWidth = Dimensions.get("window").width;
 export const windowHeight = Dimensions.get("window").height;
@@ -24,10 +23,7 @@ export const Example = () => {
     return (
         <Center flex={1} px="3">
             <HStack space={2} alignItems="center">
-                <Spinner accessibilityLabel="Loading posts" />
-                <Heading color="primary.500" fontSize="md">
-                    Loading
-                </Heading>
+                <Spinner accessibilityLabel="Loading" sm="md" />
             </HStack>
         </Center>
     );
@@ -43,7 +39,7 @@ export default function Country({ navigation }) {
     }
     useEffect(() => {
         if (details.countries.length > 0) {
-            setLoading(!loading);
+            setLoading(false);
         }
     }, [details.countries]);
 
@@ -52,7 +48,7 @@ export default function Country({ navigation }) {
             {loading ? (
                 <Example />
             ) : (
-                <Box p="5" safeArea flex={1}>
+                <Box safeArea flex={1} bg={DARK_BG}>
                     <FlatList
                         data={details.countries}
                         keyExtractor={(item, index) => index.toString()}
@@ -68,6 +64,7 @@ export default function Country({ navigation }) {
                             >
                                 <Box
                                     p="2"
+                                    mx="3"
                                     mb="1"
                                     maxW={windowWidth - 10}
                                     rounded="lg"
@@ -75,18 +72,21 @@ export default function Country({ navigation }) {
                                     overflow="hidden"
                                     borderColor="coolGray.200"
                                     borderWidth="1"
+                                    bg={DARK_BG2}
                                 >
                                     <Flex
                                         my={2}
                                         flexDirection="row-reverse"
                                         align={"center"}
                                     >
-                                        <Text fontSize={"xl"}>{item[1]}</Text>
+                                        <Text fontSize={"xl"} color={DARK_ICON}>
+                                            {item[1]}
+                                        </Text>
                                         <Box>
                                             <Entypo
                                                 name="chevron-right"
                                                 size={24}
-                                                color="black"
+                                                color={DARK_ICON}
                                             />
                                         </Box>
                                     </Flex>

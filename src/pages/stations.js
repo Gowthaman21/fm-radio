@@ -6,13 +6,14 @@ import {
     Box,
     Pressable,
     Text,
-    
     HStack,
+    Center,
 } from "native-base";
 import React, { useContext, useEffect, useState } from "react";
 import { AudioContext } from "../context/AudioProvider";
-import { Example, windowWidth } from "./country";
+import { windowWidth } from "./country";
 import Footer from "./footer";
+import { DARK_BG2, DARK_ICON } from "../theme";
 
 const Stations = () => {
     const [loading, setLoading] = useState(true);
@@ -25,15 +26,24 @@ const Stations = () => {
 
     useEffect(() => {
         if (details.radioStations.length > 0) {
-            setLoading(!loading);
+            setLoading(false);
         }
     }, [details.radioStations]);
+
     return (
         <NativeBaseProvider>
             {loading ? (
-                <Example />
+                <Center flex={1} bg={"#fff"}>
+                    <Image
+                        source={require("../../assets/noStation.jpg")}
+                        alt="ss"
+                    />
+                    <Text color="red.600" fontSize="3xl" bold>
+                        No Stations Available
+                    </Text>
+                </Center>
             ) : (
-                <Box p="5" safeArea flex={1}>
+                <Box safeArea flex={1}>
                     <FlatList
                         data={details.radioStations}
                         keyExtractor={(item, index) => index.toString()}
@@ -45,6 +55,7 @@ const Stations = () => {
                             >
                                 <Box
                                     p="2"
+                                    mx="3"
                                     mb="1"
                                     maxW={windowWidth - 10}
                                     rounded="lg"
@@ -52,24 +63,17 @@ const Stations = () => {
                                     overflow="hidden"
                                     borderColor="coolGray.200"
                                     borderWidth="1"
+                                    bg={DARK_BG2}
                                 >
                                     <Flex
                                         my={2}
                                         flexDirection="row-reverse"
                                         align={"center"}
                                     >
-                                        <Text fontSize={"xl"}>{item.name}</Text>
-
-                                        {/* <Image
-                                            key={Date.now()}
-                                            source={{
-                                                uri: item.favicon,
-                                            }}
-                                            alt="Alternate Text"
-                                            size="30"
-                                        /> */}
+                                        <Text fontSize={"xl"} color={DARK_ICON}>
+                                            {item.name}
+                                        </Text>
                                     </Flex>
-                                    {/* <Text fontSize="xs">{item}</Text> */}
                                 </Box>
                             </Pressable>
                         )}
