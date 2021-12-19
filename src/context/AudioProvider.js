@@ -13,9 +13,7 @@ const AudioProvider = ({ children }) => {
         currentStation: {},
         isPlaying: false,
         stationIndex: 0,
-        playbackPosition: null,
-        playbackDuration: null,
-        totalAudioCount: 0,
+        totalStationCount: 0,
     });
     const api = new RadioBrowserApi("My Radio App");
 
@@ -132,10 +130,12 @@ const AudioProvider = ({ children }) => {
         try {
             if (select === "next") {
                 let i = index + 1;
+                if (i === details.totalStationCount) return;
                 selectStation(i);
             }
             if (select === "prev") {
                 let i = index - 1;
+                if (i < 0) return;
                 selectStation(i);
             }
         } catch (error) {
@@ -144,40 +144,64 @@ const AudioProvider = ({ children }) => {
     };
 
     const setCountries = (country) => {
-        let temp = {};
-        for (let key in country) {
-            temp[key] = country[key].country;
-        }
-        const arrayOfObj = Object.entries(temp).map((e) => ({ [e[0]]: e[1] }));
-        let final = [];
-        arrayOfObj.map((item) => {
-            var a = Object.entries(item);
-            final.push(a[0]);
-        });
+        try {
+            let temp = {};
+            for (let key in country) {
+                temp[key] = country[key].country;
+            }
+            const arrayOfObj = Object.entries(temp).map((e) => ({
+                [e[0]]: e[1],
+            }));
+            let final = [];
+            arrayOfObj.map((item) => {
+                var a = Object.entries(item);
+                final.push(a[0]);
+            });
 
-        handleChange({ countries: final });
+            handleChange({ countries: final });
+        } catch (error) {
+            console.log("error inside setCountries method.", error.message);
+        }
     };
 
     const getStations = async (code) => {
-        let stations = await api.searchStations({
-            countryCode: code,
-            limit: 100,
-        });
-        handleChange({ radioStations: stations });
+        try {
+            handleChange({ radioStations: {} });
+            let stations = await api.searchStations({
+                countryCode: code,
+                limit: 100,
+            });
+            let stationCount = stations.length;
+            handleChange({
+                radioStations: stations,
+                totalStationCount: stationCount,
+            });
+        } catch (error) {
+            console.log("error inside get Stations method.", error.message);
+        }
     };
 
-    const sta = async (data) => {
-        let stations = await api.searchStations({
-            countryCode: data.countryCode,
-            language: data.language,
-            tag: data.genre,
-            limit: 100,
-        });
-        if (stations.length > 0) {
-            handleChange({ radioStations: stations });
-            return true;
-        } else {
-            return false;
+    const filterStations = async (data) => {
+        try {
+            handleChange({ radioStations: {} });
+            let stations = await api.searchStations({
+                countryCode: data.countryCode,
+                language: data.language,
+                tag: data.genre,
+                limit: 100,
+            });
+            let stationCount = stations.length;
+            if (stations.length > 0) {
+                handleChange({
+                    radioStations: stations,
+                    totalStationCount: stationCount,
+                });
+                return true;
+            } else {
+                return false;
+            }
+        } catch (error) {
+            console.log("error inside get Stations method.", error.message);
         }
     };
 
@@ -207,7 +231,8 @@ const AudioProvider = ({ children }) => {
                 changeStation,
                 pause,
                 getStations,
-                sta,
+                filterStations,
+                handleChange,
             }}
         >
             {children}
