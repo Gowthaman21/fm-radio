@@ -8,7 +8,7 @@ import {
 import React, { useContext } from "react";
 import { windowWidth } from "./country";
 import { AudioContext } from "../context/AudioProvider";
-import { DARK_BG, DARK_BG2 } from "../theme";
+import { DARK_BG, DARK_BG2, FOOTER_TEXT } from "../theme";
 import Footer from "./footer";
 
 const Home = ({ navigation }) => {
@@ -27,7 +27,11 @@ const Home = ({ navigation }) => {
                 h={windowWidth * 0.4}
                 justifyContent="center"
                 alignItems="center"
-                _text={{ fontSize: "xl", color: "#fff", fontWeight: "bold" }}
+                _text={{
+                    fontSize: "xl",
+                    color: FOOTER_TEXT,
+                    fontWeight: "bold",
+                }}
                 {...props}
             />
         );

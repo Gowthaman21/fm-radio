@@ -13,7 +13,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { AudioContext } from "../context/AudioProvider";
 import { windowWidth } from "./country";
 import Footer from "./footer";
-import { DARK_BG2, DARK_ICON } from "../theme";
+import { DARK_BG, DARK_BG2, DARK_ICON } from "../theme";
 
 const Stations = () => {
     const [loading, setLoading] = useState(true);
@@ -32,18 +32,18 @@ const Stations = () => {
 
     return (
         <NativeBaseProvider>
-            {loading ? (
-                <Center flex={1} bg={"#fff"}>
-                    <Image
-                        source={require("../../assets/noStation.jpg")}
-                        alt="ss"
-                    />
-                    <Text color="red.600" fontSize="3xl" bold>
-                        No Stations Available
-                    </Text>
-                </Center>
-            ) : (
-                <Box safeArea flex={1}>
+            <Box safeArea flex={1} bg={DARK_BG}>
+                {loading ? (
+                    <Center flex={1} bg={"#fff"}>
+                        <Image
+                            source={require("../../assets/noStation.jpg")}
+                            alt="ss"
+                        />
+                        <Text color="red.600" fontSize="3xl" bold>
+                            No Stations Available
+                        </Text>
+                    </Center>
+                ) : (
                     <FlatList
                         data={details.radioStations}
                         keyExtractor={(item, index) => index.toString()}
@@ -61,8 +61,6 @@ const Stations = () => {
                                     rounded="lg"
                                     flexDirection="row"
                                     overflow="hidden"
-                                    borderColor="coolGray.200"
-                                    borderWidth="1"
                                     bg={DARK_BG2}
                                 >
                                     <Flex
@@ -78,14 +76,13 @@ const Stations = () => {
                             </Pressable>
                         )}
                     />
-
-                    {isEmpty(details.currentStation) && (
-                        <HStack>
-                            <Footer />
-                        </HStack>
-                    )}
-                </Box>
-            )}
+                )}
+                {isEmpty(details.currentStation) && (
+                    <HStack>
+                        <Footer />
+                    </HStack>
+                )}
+            </Box>
         </NativeBaseProvider>
     );
 };

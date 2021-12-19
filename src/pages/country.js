@@ -70,8 +70,6 @@ export default function Country({ navigation }) {
                                     rounded="lg"
                                     flexDirection="row"
                                     overflow="hidden"
-                                    borderColor="coolGray.200"
-                                    borderWidth="1"
                                     bg={DARK_BG2}
                                 >
                                     <Flex

@@ -10,7 +10,7 @@ import {
 } from "native-base";
 import React, { useState, useContext } from "react";
 import { AudioContext } from "../context/AudioProvider";
-import { DARK_BG, DARK_BG2, DARK_ICON } from "../theme";
+import { DARK_BG, DARK_BG2, DARK_ICON, FOOTER_BG, FOOTER_TEXT } from "../theme";
 import Footer from "./footer";
 
 const CustomSearch = ({ navigation }) => {
@@ -36,7 +36,9 @@ const CustomSearch = ({ navigation }) => {
                 <Center flex={1}>
                     <VStack width="90%" mx="3">
                         <FormControl>
-                            <FormControl.Label _text={{ bold: true }}>
+                            <FormControl.Label
+                                _text={{ bold: true, color: FOOTER_TEXT }}
+                            >
                                 Country Code
                             </FormControl.Label>
                             <Input
@@ -44,10 +46,18 @@ const CustomSearch = ({ navigation }) => {
                                 onChangeText={(value) => {
                                     handleChange({ countryCode: value });
                                 }}
+                                borderWidth={"0"}
+                                bg={FOOTER_BG}
+                                color={FOOTER_TEXT}
+                                fontSize="md"
+                                fontWeight="bold"
+                                placeholderTextColor="#73A5A5"
                             />
                         </FormControl>
                         <FormControl>
-                            <FormControl.Label _text={{ bold: true }}>
+                            <FormControl.Label
+                                _text={{ bold: true, color: FOOTER_TEXT }}
+                            >
                                 Language
                             </FormControl.Label>
                             <Input
@@ -55,10 +65,18 @@ const CustomSearch = ({ navigation }) => {
                                 onChangeText={(value) => {
                                     handleChange({ language: value });
                                 }}
+                                borderWidth={"0"}
+                                bg={FOOTER_BG}
+                                color={FOOTER_TEXT}
+                                fontSize="md"
+                                fontWeight="bold"
+                                placeholderTextColor="#73A5A5"
                             />
                         </FormControl>
                         <FormControl>
-                            <FormControl.Label _text={{ bold: true }}>
+                            <FormControl.Label
+                                _text={{ bold: true, color: FOOTER_TEXT }}
+                            >
                                 Genre
                             </FormControl.Label>
                             <Input
@@ -66,6 +84,12 @@ const CustomSearch = ({ navigation }) => {
                                 onChangeText={(value) => {
                                     handleChange({ genre: value });
                                 }}
+                                borderWidth={"0"}
+                                bg={FOOTER_BG}
+                                color={FOOTER_TEXT}
+                                fontSize="md"
+                                fontWeight="bold"
+                                placeholderTextColor="#73A5A5"
                             />
                         </FormControl>
                         <Button
@@ -76,7 +100,14 @@ const CustomSearch = ({ navigation }) => {
                                 }
                             }}
                             mt="5"
-                            colorScheme="cyan"
+                            bg={FOOTER_BG}
+                            _text={{
+                                color: FOOTER_TEXT,
+                                fontWeight: "bold",
+                                fontSize: "xl",
+                            }}
+                            w={"40"}
+                            mx="auto"
                         >
                             Submit
                         </Button>
