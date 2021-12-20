@@ -19,11 +19,11 @@ import { DARK_BG, DARK_BG2, DARK_ICON } from "../theme";
 export const windowWidth = Dimensions.get("window").width;
 export const windowHeight = Dimensions.get("window").height;
 
-export const Example = () => {
+export const Spin = () => {
     return (
         <Center flex={1} px="3">
             <HStack space={2} alignItems="center">
-                <Spinner accessibilityLabel="Loading" sm="md" />
+                <Spinner accessibilityLabel="Loading" />
             </HStack>
         </Center>
     );
@@ -46,7 +46,7 @@ export default function Country({ navigation }) {
     return (
         <NativeBaseProvider>
             {loading ? (
-                <Example />
+                <Spin />
             ) : (
                 <Box safeArea flex={1} bg={DARK_BG}>
                     <FlatList

@@ -13,7 +13,7 @@ const AudioProvider = ({ children }) => {
         currentStation: {},
         isPlaying: false,
         stationIndex: 0,
-        totalStationCount: 0,
+        totalStationCount: -1,
     });
     const api = new RadioBrowserApi("My Radio App");
 
@@ -166,7 +166,7 @@ const AudioProvider = ({ children }) => {
 
     const getStations = async (code) => {
         try {
-            handleChange({ radioStations: {} });
+            handleChange({ radioStations: {}, totalStationCount: -1 });
             let stations = await api.searchStations({
                 countryCode: code,
                 limit: 100,
@@ -183,7 +183,7 @@ const AudioProvider = ({ children }) => {
 
     const filterStations = async (data) => {
         try {
-            handleChange({ radioStations: {} });
+            handleChange({ radioStations: {}, totalStationCount: -1 });
             let stations = await api.searchStations({
                 countryCode: data.countryCode,
                 language: data.language,

@@ -24,7 +24,7 @@ export default function Routes() {
                     name="home"
                     component={Home}
                     options={{
-                        title: "Home",
+                        title: "Online FM",
                     }}
                 />
                 <Stack.Screen
